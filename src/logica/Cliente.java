@@ -8,8 +8,11 @@ public class Cliente {
         this.recibos = r;
     }
 
-    public String getString(){
-        return "Cliente: "+nombre+"\nRecibos: "+recibos;
+    public String getNombre(){
+        return "Cliente: "+nombre;
     }
-    
+
+    public String getRecibos(){
+        return "Recibos: "+recibos;
+    }
 }

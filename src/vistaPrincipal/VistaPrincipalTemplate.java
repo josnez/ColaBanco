@@ -2,7 +2,6 @@ package vistaPrincipal;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -40,7 +39,7 @@ public class VistaPrincipalTemplate extends JFrame{
 
     //Objetos comunicacion
     private Logica log;
-    private int x,y;
+    private int x,y,in;
 
     public VistaPrincipalTemplate(Logica log){
         this.log = log;
@@ -100,7 +99,7 @@ public class VistaPrincipalTemplate extends JFrame{
 
         lGrafica = new JLabel(){
             public void paint(Graphics grph) {
-                //dibujaCola(grph);
+                dibujaCola(grph);
             };
         };
         lGrafica.setBackground(colorAzulClaro);
@@ -126,21 +125,18 @@ public class VistaPrincipalTemplate extends JFrame{
         this.add(scrollPCola, BorderLayout.CENTER);
     }
 
-    public void crearCliente(int c){
-        JButton label = new JButton("Cliente: "+(char)c);
-        label.setFont(fuentePrincipal);
-    }
-
     private void dibujaCola(Graphics grph) {
-        
+        System.out.println("Dibuja cola");
         int anchura=log.getCola().size();
+        if(anchura==0) return;
         grph.setColor(Color.WHITE);
         grph.clearRect(0, 0, x, y);
         y = 420;
-        x = anchura*80;
+        x = anchura*110;
+        in = 0;
         grph.clearRect(0, 0, x, y);
         lGrafica.setPreferredSize(new Dimension(x, y));
-        dibujaCliente(grph, (Cliente) log.getCola().remove(), 30, 180);
+        dibujaCliente(grph,log.getCola().get(in), 30, 180);
         scrollPCola.doLayout();
     }
 
@@ -150,12 +146,14 @@ public class VistaPrincipalTemplate extends JFrame{
             return 0;
 
         grph.setColor(colorAzulF);
-        grph.fillRect(x, y, 80, 50);
+        grph.fillRect(x, y, 100, 50);
         
-            grph.setColor(Color.WHITE);
-            grph.drawString(cliente.getString(), x + 20, y + 30);
+            grph.setColor(Color.RED);
+            grph.drawString(cliente.getNombre(), x + 20, y + 30);
+            grph.drawString(cliente.getRecibos(), x + 20, y + 45);
             if (!log.getCola().isEmpty()) {
-                dibujaCliente(grph, (Cliente) log.getCola().remove(), x + 80, y);
+                in++;
+                dibujaCliente(grph, log.getCola().get(in), x + 100, y);
             }
         
         return 1;
@@ -171,6 +169,10 @@ public class VistaPrincipalTemplate extends JFrame{
 
     public ScrollPane getScrollPCola() {
         return scrollPCola;
+    }
+
+    public JLabel getLGrafica(){
+        return lGrafica;
     }
 
 }
