@@ -1,6 +1,7 @@
 package vistaPrincipal;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.FlowLayout;
@@ -10,12 +11,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.ScrollPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import logica.Cliente;
 import logica.Logica;
@@ -23,25 +26,26 @@ import logica.Logica;
 /**
  * VistaPrincipalTemplate
  */
-public class VistaPrincipalTemplate extends JFrame{
+public class VistaPrincipalTemplate extends JFrame {
 
-    //Objetos graficos
+    // Objetos graficos
     private JPanel pNorte, pCajero, pClienteA;
-    private JLabel lTitulo, lMnsCajero, lClienteP, lCajero, lGrafica;
+    private JLabel lTitulo, lMnsCajero, lClienteP, lCajero, lGrafica, lRecibos;
     private JButton bAddClientes;
     private ScrollPane scrollPCola;
 
-    //Objetos decoradores
+    // Objetos decoradores
     private Font fuenteTitulo, fuentePrincipal;
     private Cursor cMano;
     private ImageIcon iAux, iAbrir, iCajero;
     private Color colorAzulClaro, colorAzulM, colorAzulF;
+    private Border borderCampos;
 
-    //Objetos comunicacion
+    // Objetos comunicacion
     private Logica log;
-    private int x,y,in;
+    private int x, y, in;
 
-    public VistaPrincipalTemplate(Logica log){
+    public VistaPrincipalTemplate(Logica log) {
         this.log = log;
         crearObjetosDecoradores();
         crearJPaneles();
@@ -56,7 +60,7 @@ public class VistaPrincipalTemplate extends JFrame{
         this.setVisible(true);
     }
 
-    private void crearObjetosDecoradores(){
+    private void crearObjetosDecoradores() {
         fuenteTitulo = new Font("Comic Sans MS", Font.BOLD, 20);
         fuentePrincipal = new Font("Comic Sans MS", Font.PLAIN, 16);
         iAbrir = new ImageIcon("resources/imagenes/abrirBanco.png");
@@ -65,18 +69,22 @@ public class VistaPrincipalTemplate extends JFrame{
         colorAzulClaro = new Color(72, 192, 249);
         colorAzulM = new Color(0, 122, 204);
         colorAzulF = new Color(17, 15, 151);
+        borderCampos = BorderFactory.createLineBorder(colorAzulClaro, 5, true);
     }
 
-    private void crearJPaneles(){
+    private void crearJPaneles() {
         pNorte = new JPanel(new FlowLayout());
         pNorte.setBackground(colorAzulM);
-        this.add(pNorte,BorderLayout.NORTH);
-        pCajero = new JPanel(new BorderLayout());
-        //pCajero.setSize(300, 400);
+        pNorte.setBorder(borderCampos);
+        this.add(pNorte, BorderLayout.NORTH);
+        pCajero = new JPanel(new BorderLayout()); 
         this.add(pCajero, BorderLayout.WEST);
+        pClienteA = new JPanel(new GridLayout(2, 1));
+        //pClienteA.setBorder(borderCampos);       
+        pCajero.add(pClienteA, BorderLayout.SOUTH);
     }
 
-    private void crearJLabels(){
+    private void crearJLabels() {
         lTitulo = new JLabel("Banco colombiano");
         lTitulo.setFont(fuenteTitulo);
         pNorte.add(lTitulo);
@@ -89,24 +97,28 @@ public class VistaPrincipalTemplate extends JFrame{
         pRCajero.add(lMnsCajero, BorderLayout.CENTER);
         lCajero = new JLabel();
         iAux = new ImageIcon(iCajero.getImage().getScaledInstance(80, 80, Image.SCALE_AREA_AVERAGING));
-        lCajero.setIcon(iAux);        
+        lCajero.setIcon(iAux);
         pRCajero.add(lCajero, BorderLayout.SOUTH);
         pCajero.add(pRCajero, BorderLayout.CENTER);
-        lClienteP = new JLabel("asd");
-        pClienteA = new JPanel();
+        lClienteP = new JLabel("Esperando");
+        lClienteP.setFont(fuentePrincipal);
+        lClienteP.setForeground(colorAzulF);
+        lRecibos = new JLabel("Cliente");
+        lRecibos.setFont(fuentePrincipal); 
+        lRecibos.setForeground(colorAzulF);    
         pClienteA.add(lClienteP);
-        pCajero.add(pClienteA, BorderLayout.SOUTH);
+        pClienteA.add(lRecibos);
 
-        lGrafica = new JLabel(){
+        lGrafica = new JLabel() {
             public void paint(Graphics grph) {
                 dibujaCola(grph);
             };
         };
-        lGrafica.setBackground(colorAzulClaro);
+        // lGrafica.setBackground(colorAzulClaro);
         scrollPCola.add(lGrafica);
     }
 
-    private void crearJButtons(){
+    private void crearJButtons() {
         bAddClientes = new JButton();
         bAddClientes.setSize(5, 5);
         bAddClientes.setFocusable(false);
@@ -119,24 +131,24 @@ public class VistaPrincipalTemplate extends JFrame{
         bAddClientes.setBackground(Color.RED);
         pCajero.add(bAddClientes, BorderLayout.NORTH);
     }
-    
-    public void crearScrollPane(){
+
+    public void crearScrollPane() {
         scrollPCola = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
         this.add(scrollPCola, BorderLayout.CENTER);
     }
 
     private void dibujaCola(Graphics grph) {
-        System.out.println("Dibuja cola");
-        int anchura=log.getCola().size();
-        if(anchura==0) return;
+        int anchura = log.getCola().size();
+        if (anchura == 0)
+            return;
         grph.setColor(Color.WHITE);
         grph.clearRect(0, 0, x, y);
-        y = 420;
-        x = anchura*110;
+        y = 410;
+        x = anchura * 110 + 30;
         in = 0;
         grph.clearRect(0, 0, x, y);
         lGrafica.setPreferredSize(new Dimension(x, y));
-        dibujaCliente(grph,log.getCola().get(in), 30, 180);
+        dibujaCliente(grph, log.getColaG().get(in), 30, 180);
         scrollPCola.doLayout();
     }
 
@@ -145,17 +157,17 @@ public class VistaPrincipalTemplate extends JFrame{
         if (cliente == null)
             return 0;
 
-        grph.setColor(colorAzulF);
+        grph.setColor(cliente.getColor());
         grph.fillRect(x, y, 100, 50);
-        
-            grph.setColor(Color.RED);
-            grph.drawString(cliente.getNombre(), x + 20, y + 30);
-            grph.drawString(cliente.getRecibos(), x + 20, y + 45);
-            if (!log.getCola().isEmpty()) {
-                in++;
-                dibujaCliente(grph, log.getCola().get(in), x + 100, y);
-            }
-        
+
+        grph.setColor(colorAzulF);
+        grph.drawString("Cliente " + cliente.getNombre(), x + 20, y + 30);
+        grph.drawString("Recibos: " + cliente.getRecibos(), x + 20, y + 45);
+        in++;
+        if (!log.getCola().isEmpty() && in < log.getCola().size()) {
+            dibujaCliente(grph, log.getColaG().get(in), x + 110, y);
+        }
+
         return 1;
     }
 
@@ -167,12 +179,16 @@ public class VistaPrincipalTemplate extends JFrame{
         return pClienteA;
     }
 
-    public ScrollPane getScrollPCola() {
-        return scrollPCola;
+    public JLabel getLGrafica() {
+        return lGrafica;
     }
 
-    public JLabel getLGrafica(){
-        return lGrafica;
+    public JLabel getlClienteP() {
+        return lClienteP;
+    }
+
+    public JLabel getlRecibos() {
+        return lRecibos;
     }
 
 }

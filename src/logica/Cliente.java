@@ -1,18 +1,30 @@
 package logica;
 
+import java.awt.Color;
+
 public class Cliente {
-    private String nombre;
+    private char nombre;
     private int recibos;
+    private Color c;
 
-    public Cliente(int r){
+    public Cliente(char n, int r, Color c){
         this.recibos = r;
+        this.nombre = n;
+        this.c = c;
     }
 
-    public String getNombre(){
-        return "Cliente: "+nombre;
+    public char getNombre(){
+        return nombre;
     }
 
-    public String getRecibos(){
-        return "Recibos: "+recibos;
+    public int getRecibos(){
+        return recibos;
+    }
+    public void setRecibos(int r){
+        recibos=r;
+    }
+
+    public Color getColor(){
+        return c;
     }
 }
