@@ -44,9 +44,11 @@ public class Logica implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < 5; i++) {
+        int n = (int) Math.floor(Math.random() * 5 + 1);
+        for (int i = 0; i < n; i++) {
             Cliente c = new Cliente(generarNombres(), generarRecibos(), generarColor());
             cola.add(c);
+            //Auxiliar para dibujar
             colaG.add(c);
             visPrin.getLGrafica().repaint();
             visPrin.getLGrafica().updateUI();

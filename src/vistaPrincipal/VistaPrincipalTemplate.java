@@ -53,7 +53,7 @@ public class VistaPrincipalTemplate extends JFrame {
         crearJButtons();
         crearJLabels();
 
-        this.setSize(800, 500);
+        this.setSize(1200, 500);
         this.setLocationRelativeTo(this);
         this.setTitle("Banco");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +85,7 @@ public class VistaPrincipalTemplate extends JFrame {
     }
 
     private void crearJLabels() {
-        lTitulo = new JLabel("Banco colombiano");
+        lTitulo = new JLabel("Banco");
         lTitulo.setFont(fuenteTitulo);
         pNorte.add(lTitulo);
 

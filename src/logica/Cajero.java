@@ -16,6 +16,7 @@ public class Cajero extends Thread {
     private void atenderClientes(){
         while (!l.getCola().isEmpty()) {            
             Cliente c = l.getCola().poll();
+            //Auxiliar para dibujar
             l.getColaG().remove(0);
             visPrin.getLGrafica().repaint();
             addCliente(c);
